@@ -24,8 +24,8 @@ as well as to verify your TL classifier.
 TODO (for Yousuf and Aaron): Stopline location for each traffic light.
 '''
 
-LOOKAHEAD_WPS = 20 # Number of waypoints we will publish. You can change this number
-
+LOOKAHEAD_WPS = 70 # Number of waypoints we will publish. You can change this number
+MAX_DECEL = 0.5 # Max deceleration rate
 
 class WaypointUpdater(object):
     def __init__(self):
@@ -131,19 +131,19 @@ class WaypointUpdater(object):
         # TODO: Callback for /obstacle_waypoint message. We will implement it later
         pass
 
-#     def get_waypoint_velocity(self, waypoint):
-#         return waypoint.twist.twist.linear.x
+    def get_waypoint_velocity(self, waypoint):
+        return waypoint.twist.twist.linear.x
 
-#     def set_waypoint_velocity(self, waypoints, waypoint, velocity):
-#         waypoints[waypoint].twist.twist.linear.x = velocity
+    def set_waypoint_velocity(self, waypoints, waypoint, velocity):
+        waypoints[waypoint].twist.twist.linear.x = velocity
 
-#     def distance(self, waypoints, wp1, wp2):
-#         dist = 0
-#         dl = lambda a, b: math.sqrt((a.x-b.x)**2 + (a.y-b.y)**2  + (a.z-b.z)**2)
-#         for i in range(wp1, wp2+1):
-#             dist += dl(waypoints[wp1].pose.pose.position, waypoints[i].pose.pose.position)
-#             wp1 = i
-#         return dist
+    def distance(self, waypoints, wp1, wp2):
+        dist = 0
+        dl = lambda a, b: math.sqrt((a.x-b.x)**2 + (a.y-b.y)**2  + (a.z-b.z)**2)
+        for i in range(wp1, wp2+1):
+            dist += dl(waypoints[wp1].pose.pose.position, waypoints[i].pose.pose.position)
+            wp1 = i
+        return dist
 
 
 if __name__ == '__main__':
